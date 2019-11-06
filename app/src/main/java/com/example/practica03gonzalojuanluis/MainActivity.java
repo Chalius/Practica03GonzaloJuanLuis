@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,12 +24,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.example.practica03gonzalojuanluis.ui.main.SectionsPagerAdapter;
-
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentoLlamadas.OnFragmentInteractionListener,FragmentoMensajes.OnFragmentInteractionListener{
+
+
 
     int contadorLlamada = 0;
     String numero ;
@@ -105,6 +111,20 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+        //PETICION DE PERMISOS ANDROID LECTURA SMS Y LLAMADAS+++++
+
+        final int READ_SMS = 0;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.READ_SMS}, READ_SMS);
+        }
+
+
+
+
+
+
     }
 
 
@@ -113,4 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
