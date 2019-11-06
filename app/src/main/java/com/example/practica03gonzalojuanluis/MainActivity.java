@@ -1,6 +1,12 @@
 package com.example.practica03gonzalojuanluis;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -11,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,10 +27,17 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.practica03gonzalojuanluis.ui.main.SectionsPagerAdapter;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements FragmentoLlamadas.OnFragmentInteractionListener,FragmentoMensajes.OnFragmentInteractionListener{
 
 
+
+    int contadorLlamada = 0;
+    String numero ;
+
+
+    private Map<String, ?> elementosGuardados = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -47,8 +59,10 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
             }
         });
 
-
-        //PETICION DE PERMISOS ANDROID LECTURA SMS Y LLAMADAS+++++
+        //__________________________________________
+        //                                          |
+        // Otorgando permisos a nivel de codigo
+        //__________________________________________|
         final int READ_PHONE_STATE = 123;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, READ_PHONE_STATE);
@@ -57,26 +71,69 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, READ_CALL_LOG);
         }
+
+        //__________________________________________
+        //                                          |
+        // Fin de permisos
+        //__________________________________________|
+
+
+        //__________________________________________
+        //                                          |
+        // CAPTURANDO DATOS ENVIADOS DESDE RECEPTORLLAMADA
+        //__________________________________________|
+
+
+        Bundle parametros = this.getIntent().getExtras();
+        if (parametros != null) {
+            // obteniendo el número del telefono
+            numero = getIntent().getExtras().getString("numero");
+
+
+
+
+            // recuperando datos del shared preferences
+            SharedPreferences datos = this.getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
+            elementosGuardados = datos.getAll();
+
+
+
+
+
+
+        }
+        //__________________________________________
+        //                                          |
+        // FIN DE CAPTURA DE DATOS
+        //__________________________________________|
+
+
+
+
+
+
+
+        //PETICION DE PERMISOS ANDROID LECTURA SMS Y LLAMADAS+++++
+
         final int READ_SMS = 0;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_SMS}, READ_SMS);
         }
 
-        //OPCION 2 PARA RUNTIME PERMISSION DE SMS
-        String permission = Manifest.permission.RECEIVE_SMS;
-        int grant  = ContextCompat.checkSelfPermission(this, permission);
-        if ( grant != PackageManager.PERMISSION_GRANTED){
-            String[] permission_list = new String [1];
-            permission_list[0]=permission;
-            ActivityCompat.requestPermissions(this, permission_list,1);
-        }
-        // FIN DE PETICION DE PERMISOS *++++++++
 
 
 
 
 
     }
+
+
+
+
+
+
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
