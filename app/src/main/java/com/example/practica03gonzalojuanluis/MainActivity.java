@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             // recuperando datos del shared preferences
-            SharedPreferences datos = this.getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
-            elementosGuardados = datos.getAll();
+            SharedPreferences llamadas = this.getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
+            elementosGuardados = llamadas.getAll();
 
 
 

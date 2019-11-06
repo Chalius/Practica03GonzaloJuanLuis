@@ -34,8 +34,8 @@ public class llamada extends AppCompatActivity {
 
     public void guardarNumero(View v){
         // se apertura archivo de preferencias, para guardar datos en memoria
-        SharedPreferences datos = getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = datos.edit();
+        SharedPreferences llamadas = getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = llamadas.edit();
         editor.putString("numero" + contadorLlamada++,lblNumero.getText().toString());
         editor.commit();
 
