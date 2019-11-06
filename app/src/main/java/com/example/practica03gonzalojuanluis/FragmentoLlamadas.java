@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.Map;
 
 
 /**
@@ -29,7 +32,11 @@ public class FragmentoLlamadas extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     //*******DEclaracion de variables globales
-    ListView lstLlamadas;
+    private ListView lstLlamadas;
+    //**probar
+
+    private String[] elementosLista = null;
+    private Map<String, ?> elementosGuardados = null;
 
     public FragmentoLlamadas() {
         // Required empty public constructor
@@ -42,20 +49,20 @@ public class FragmentoLlamadas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragmento_llamadas,container,false);
 
-        //*************Recepcion de datos en shared preferences***********
-        /*
-        SharedPreferences datos = this.getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
-        elementosGuardados = datos.getAll();
-        elementosLista = (String[])elementosGuardados.values().toArray(new String[elementosGuardados.size()]);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, elementosLista);
-        lstContactos.setAdapter(adaptador);
-        */
-
-
-        setHasOptionsMenu(true);
 
         //***Creacion de lista
         lstLlamadas = view.findViewById(R.id.lstLlamadas);
+
+        //*************Recepcion de datos en shared preferences***********
+        SharedPreferences datos = getActivity().getSharedPreferences("DatosDeReceptor",Context.MODE_PRIVATE);
+        elementosGuardados = datos.getAll();
+        elementosLista = (String[])elementosGuardados.values().toArray(new String[elementosGuardados.size()]);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, elementosLista);
+        lstLlamadas.setAdapter(adaptador);
+
+        setHasOptionsMenu(true);
+
+
 
         //**Registrar la lista para el context menu
         registerForContextMenu(lstLlamadas);

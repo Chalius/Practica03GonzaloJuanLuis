@@ -31,7 +31,7 @@ public class llamada extends AppCompatActivity {
 
 
     }
-
+    /* FUNCION GONZALO, SOBRE ESCRIBE LA PRIMERA LINEA
     public void guardarNumero(View v){
         // se apertura archivo de preferencias, para guardar datos en memoria
         SharedPreferences llamadas = getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
@@ -40,6 +40,21 @@ public class llamada extends AppCompatActivity {
         editor.commit();
 
         Intent mostrarNumeros = new Intent(this,MainActivity.class);
+        startActivity(mostrarNumeros);
+        finish();
+    }
+    */
+    //******** ESTA FUNCION SI POBLA LA LISTVIEW, CREANDO UN NUEVO TAB EN CADA INTERACCION
+    public void guardarNumero(View v){
+        // se apertura archivo de preferencias, para guardar datos en memoria
+        SharedPreferences datos = getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = datos.edit();
+        contadorLlamada=datos.getAll().size()+1;
+        editor.putString("numero" + contadorLlamada++,lblNumero.getText().toString());
+        editor.commit();
+
+        Intent mostrarNumeros = new Intent(this,MainActivity.class);
+        mostrarNumeros.putExtra("a","numero"+contadorLlamada);
         startActivity(mostrarNumeros);
         finish();
     }
