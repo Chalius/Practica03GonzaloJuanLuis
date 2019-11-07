@@ -31,7 +31,11 @@ import android.widget.ListView;
 import com.example.practica03gonzalojuanluis.ui.main.SectionsPagerAdapter;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements FragmentoLlamadas.OnFragmentInteractionListener,FragmentoMensajes.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements
+        FragmentoLlamadas.OnFragmentInteractionListener,
+        FragmentoMensajes.OnFragmentInteractionListener,
+        FragmentoInformacion.OnFragmentInteractionListener
+{
 
 
     //test
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
         //                                          |
         // CAPTURANDO DATOS ENVIADOS DESDE RECEPTORLLAMADA
         //__________________________________________|
-        
+
         Bundle parametros = this.getIntent().getExtras();
         if (parametros != null) {
             // obteniendo el número del telefono

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.practica03gonzalojuanluis.FragmentoInformacion;
 import com.example.practica03gonzalojuanluis.FragmentoLlamadas;
 import com.example.practica03gonzalojuanluis.FragmentoMensajes;
 import com.example.practica03gonzalojuanluis.R;
@@ -39,7 +40,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 FragmentoMensajes frmMensajes = new FragmentoMensajes();
                 return frmMensajes;
             case 2:
-                return PlaceholderFragment.newInstance(position + 1);
+                FragmentoInformacion frmInformacion = new FragmentoInformacion();
+                //return PlaceholderFragment.newInstance(position + 1);
+                return frmInformacion;
         }
         return PlaceholderFragment.newInstance(position + 1);
     }

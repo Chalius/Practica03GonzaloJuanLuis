@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -100,6 +101,27 @@ public class FragmentoMensajes extends Fragment {
             case R.id.verMensajes:
                 Toast.makeText(getContext(), "Ver Mensajes Por configurar", Toast.LENGTH_LONG).show();
 
+                //______________________________________________
+                //                                              |
+                // ENVIAR DATOS A FRAGMENTOINFORMACION
+                //
+                //______________________________________________|
+                String numero2 = lstMensajes.getAdapter().getItem(seleccionlista).toString();
+
+                FragmentoInformacion fragInformacion = new FragmentoInformacion();
+                Bundle args = new Bundle();
+                args.putString("texto", numero2);
+                fragInformacion.setArguments(args);
+                FragmentTransaction transaccion = getActivity().getSupportFragmentManager().beginTransaction();
+                transaccion.replace(R.id.contenedor,fragInformacion);
+
+                transaccion.commit();
+
+                //______________________________________________
+                //                                              |
+                // FIN DE ENVIAR DATOS A FRAGMENTOINFORMACION
+                //
+                //______________________________________________|
 
                 return true;
             default:
