@@ -68,9 +68,14 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, READ_PHONE_STATE);
         }
-        final int READ_CALL_LOG = 123;
+        final int READ_CALL_LOG = 456;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, READ_CALL_LOG);
+        }
+
+        final int MAKE_PHONE_CALLS = 789;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, MAKE_PHONE_CALLS);
         }
 
         //__________________________________________
