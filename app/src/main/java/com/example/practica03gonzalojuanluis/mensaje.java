@@ -2,12 +2,16 @@ package com.example.practica03gonzalojuanluis;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,6 +20,7 @@ public class mensaje extends AppCompatActivity {
     int contadorLlamada = 0;
     TextView lblNumero;
     TextView lblMensaje;
+    private String mensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class mensaje extends AppCompatActivity {
             String numero = getIntent().getExtras().getString("numero");
             lblNumero.setText(numero + "");
 
-            String mensaje = getIntent().getExtras().getString("mensaje");
+            mensaje = getIntent().getExtras().getString("mensaje");
             lblMensaje.setText(mensaje + "");
         }
     }
@@ -44,12 +49,18 @@ public class mensaje extends AppCompatActivity {
 
         contadorLlamada=datos2.getAll().size()+1;
 
+        Bundle parametros = this.getIntent().getExtras();
+        if (parametros != null) {
+            mensaje = getIntent().getExtras().getString("mensaje");
+        }
 
         String value = datos2.getString(lblNumero.getText().toString(),null);
         if (value == null) {
             // LA LLAVE NO EXISTE Y SE PROCEDE A AGREGAR
             editor.putString(""+lblNumero.getText().toString(),lblNumero.getText().toString());
             editor.commit();
+            insertarPerfil(""+lblNumero.getText().toString(),mensaje);
+
             Intent mostrarMensajes = new Intent(this, MainActivity.class);
             startActivity(mostrarMensajes);
             finish();
@@ -62,6 +73,21 @@ public class mensaje extends AppCompatActivity {
 
 
     }
+
+
+    private void insertarPerfil(String xfec, String xdes){
+        DatabaseHelper dbh = new DatabaseHelper(this);
+        SQLiteDatabase db = dbh.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseHelper.NUMERO, xfec);
+        cv.put(DatabaseHelper.MENSAJE, xdes);
+        db.insert("registros",DatabaseHelper.NUMERO,cv);
+        db.close();
+    }
+
+
+
+
 
 
     public void cerrar(View v){
