@@ -6,11 +6,11 @@ android:layout_height="match_parent"
 tools:context=".FragmentoMensajes">
 
 <!-- TODO: Update blank fragment layout -->
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:text="Lista de llamadas" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Lista Numeros de mensaje" />
 
 <FrameLayout
     android:id="@+id/contenedorMensajes"

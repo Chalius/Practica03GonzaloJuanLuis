@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -119,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
         final int READ_SMS = 0;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_SMS}, READ_SMS);
+        }
+
+        //PERMISO QUE HABILITA LA RECEPCION DE MENSAJES Y CREACION DE LLAMADA.JAVA
+        String permission = Manifest.permission.RECEIVE_SMS;
+        int grant  = ContextCompat.checkSelfPermission(this, permission);
+        if ( grant != PackageManager.PERMISSION_GRANTED){
+            String[] permission_list = new String [1];
+            permission_list[0]=permission;
+            ActivityCompat.requestPermissions(this, permission_list,1);
         }
 
 

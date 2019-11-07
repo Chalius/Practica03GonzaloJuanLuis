@@ -44,6 +44,7 @@ public class llamada extends AppCompatActivity {
         finish();
     }
     */
+    /*
     //******** ESTA FUNCION SI POBLA LA LISTVIEW, CREANDO UN NUEVO TAB EN CADA INTERACCION
     public void guardarNumero(View v){
         // se apertura archivo de preferencias, para guardar datos en memoria
@@ -58,9 +59,47 @@ public class llamada extends AppCompatActivity {
         startActivity(mostrarNumeros);
         finish();
     }
+    */
+
+    //FUNCION QUE EVITA AGREGAR NUMEROS REPETIDOS
+    public void guardarNumero(View v) {
+        //Nuevo SHARED PREFERENCES QUE ALMACENARA DATOS DE MENSAJE Y NUMERO
+        SharedPreferences datos = getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = datos.edit();
+
+        contadorLlamada=datos.getAll().size()+1;
+
+        String value = datos.getString(lblNumero.getText().toString(),null);
+        if (value == null) {
+            // LA LLAVE NO EXISTE Y SE PROCEDE A AGREGAR
+            editor.putString(""+lblNumero.getText().toString(),lblNumero.getText().toString());
+            editor.commit();
+            Intent mostrarNumeros = new Intent(this, MainActivity.class);
+            startActivity(mostrarNumeros);
+            finish();
+        } else {
+            // LA LLAVE EXISTE Y NO SE AGREGA
+            Intent mostrarNumeros = new Intent(this, MainActivity.class);
+            startActivity(mostrarNumeros);
+            finish();
+        }
+
+
+    }
+
+
 
 
     public void cerrar(View v){
+
         finish();
     }
 }
+
+/*
+
+SharedPreferences datos2 = getSharedPreferences("DatosDeReceptor2", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = datos2.edit();
+        editor.clear();
+        editor.commit();
+ */

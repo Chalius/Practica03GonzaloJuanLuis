@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item android:id="@+id/enviarMensaje"
+    android:title="Enviar Mensajes"
+    android:icon="@android:drawable/ic_dialog_dialer"
+    app:showAsAction="ifRoom" />
+<item android:id="@+id/verMensajes"
+    android:title="Ver Mensajes"
+    android:icon="@android:drawable/ic_dialog_info"
+    app:showAsAction="ifRoom"
+    />
+</menu>
