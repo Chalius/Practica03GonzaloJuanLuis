@@ -5,9 +5,14 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +22,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.practica03gonzalojuanluis.Utils.MyRecyclerViewAdapter;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 
 /**
@@ -32,11 +50,15 @@ public class FragmentoLlamadas extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     //*******DEclaracion de variables globales
-    private ListView lstLlamadas;
+    //private ListView lstLlamadas;
     //**probar
 
     private String[] elementosLista = null;
     private Map<String, ?> elementosGuardados = null;
+    private Map<String,?> elementosNoDuplicados = null;
+
+    private RecyclerView miRecyclerView = null;
+    private MyRecyclerViewAdapter myRecyclerViewAdapter = null;
 
     public FragmentoLlamadas() {
         // Required empty public constructor
@@ -51,24 +73,59 @@ public class FragmentoLlamadas extends Fragment {
 
 
         //***Creacion de lista
-        lstLlamadas = view.findViewById(R.id.lstLlamadas);
+        //lstLlamadas = view.findViewById(R.id.lstLlamadas);
 
         //*************Recepcion de datos en shared preferences***********
         SharedPreferences datos = getActivity().getSharedPreferences("DatosDeReceptor",Context.MODE_PRIVATE);
         elementosGuardados = datos.getAll();
-        elementosLista = (String[])elementosGuardados.values().toArray(new String[elementosGuardados.size()]);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, elementosLista);
-        lstLlamadas.setAdapter(adaptador);
+        elementosNoDuplicados = datos.getAll();
+
+
+        Collection<Object> list = (Collection<Object>) elementosNoDuplicados.values(); //se remueven los duplicados de la lista
+        for(Iterator<Object> itr = list.iterator(); itr.hasNext();)
+        {
+            if(Collections.frequency(list, itr.next())>1)
+            {
+                itr.remove();
+            }
+        }
+
+        Map <String,Integer> items = new HashMap<>();
+
+
+        for (Map.Entry<String,?> entry : elementosNoDuplicados.entrySet()){
+            items.put(entry.getValue().toString(),0);
+        }
+
+        for (Map.Entry<String,?> entry : elementosGuardados.entrySet()){               // for elementos repetidos
+            if (elementosNoDuplicados.containsValue(entry.getValue().toString())){       // if si encuentra en no repetidos
+                int count = 0;
+                for (Map.Entry<String,Integer> itemEntry : items.entrySet()){
+                    if (entry.getValue().toString().equals(itemEntry.getKey())) count = itemEntry.getValue()+1;
+                }
+                items.put(entry.getValue().toString(),count);
+
+            }
+        }
+
+        //elementosLista = (String[])elementosGuardados.values().toArray(new String[elementosGuardados.size()]);
+        //String[] elementosLista2 = (String[])items.keySet().toArray(new String[items.size()]);
+        //ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,elementosLista2);
+        //lstLlamadas.setAdapter(adaptador);
+
+        miRecyclerView = view.findViewById(R.id.lstLlamadas);
+
+        miRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(),items);
+        //myRecyclerViewAdapter.setClickListener();
+        miRecyclerView.setAdapter(myRecyclerViewAdapter);
+
+
 
         setHasOptionsMenu(true);
 
-
-
         //**Registrar la lista para el context menu
-        registerForContextMenu(lstLlamadas);
-
-
-
+        //registerForContextMenu(lstLlamadas);
 
 
 
