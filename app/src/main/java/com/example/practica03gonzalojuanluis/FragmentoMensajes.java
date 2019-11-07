@@ -114,7 +114,6 @@ public class FragmentoMensajes extends Fragment {
                 fragInformacion.setArguments(args);
                 FragmentTransaction transaccion = getActivity().getSupportFragmentManager().beginTransaction();
                 transaccion.replace(R.id.contenedor,fragInformacion);
-
                 transaccion.commit();
 
                 //______________________________________________

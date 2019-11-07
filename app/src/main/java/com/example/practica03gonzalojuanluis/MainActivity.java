@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -27,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.practica03gonzalojuanluis.ui.main.SectionsPagerAdapter;
 import java.util.Map;
@@ -152,5 +155,26 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+
+
+    public void buscar(View v){
+/*
+        resultado = findViewById(R.id.tv_resultado);
+        String nombre = nombre_buscado.getText().toString();
+        DataBaseHelper dbh = new DataBaseHelper(getActivity());
+        SQLiteDatabase db = dbh.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM productos WHERE TRIM(nombre_producto) = '"+nombre.trim()+"'", null);
+        if(c.moveToFirst()){
+            String cod = c.getString(0);
+            String nom = c.getString(1);
+            String pre = c.getString(2);
+            resultado.setText(cod+" | "+ nom+" | "+pre);
+        }else{
+            Toast.makeText(getBaseContext(),"Producto no encontrado",Toast.LENGTH_LONG).show();
+        }
+        db.close();
+*/
     }
 }

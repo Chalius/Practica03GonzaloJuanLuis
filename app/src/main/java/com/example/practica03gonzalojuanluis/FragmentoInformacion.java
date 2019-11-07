@@ -1,6 +1,8 @@
 package com.example.practica03gonzalojuanluis;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -25,13 +28,14 @@ public class FragmentoInformacion extends Fragment {
     public FragmentoInformacion() {
         // Required empty public constructor
     }
-
+    DatabaseHelper dbh;
     TextView tv_mensajeRecibido;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragmento_informacion, container, false);
+        String recibido="";
 
         //______________________________________________
         //                                              |
@@ -41,7 +45,7 @@ public class FragmentoInformacion extends Fragment {
 
         tv_mensajeRecibido = view.findViewById(R.id.tv_mensajeRecibido);
         if(getArguments()!=null) {
-            String recibido = getArguments().getString("texto");
+            recibido = getArguments().getString("texto");
             tv_mensajeRecibido.setText(recibido);
         }
         //______________________________________________
@@ -49,6 +53,41 @@ public class FragmentoInformacion extends Fragment {
         // fin de codigo para poder recibir datos desde fragmentomensaje
         //
         //______________________________________________|
+
+
+
+        //______________________________________________
+        //                                              |
+        // ACCESO A SQLITE
+        //
+        //______________________________________________|
+/*
+        String nombre = recibido;
+
+        if(dbh == null){
+            dbh = new DatabaseHelper(getActivity());
+        }
+
+        //dbh = new DataBaseHelper(getActivity());
+        SQLiteDatabase db = dbh.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM registros WHERE TRIM(numero) = '"+nombre.trim()+"'", null);
+        if(c.moveToFirst()){
+            String cod = c.getString(0);
+            String nom = c.getString(1);
+            String pre = c.getString(2);
+            //resultado.setText(cod+" | "+ nom+" | "+pre);
+        }else{
+            //Toast.makeText(getBaseContext(),"Producto no encontrado",Toast.LENGTH_LONG).show();
+        }
+        dbh.close();
+*/
+        //______________________________________________
+        //                                              |
+        // fin de codigo para poder recibir datos desde fragmentomensaje
+        //
+        //______________________________________________|
+
+
 
         return view;
     }
@@ -91,4 +130,8 @@ public class FragmentoInformacion extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
+
 }
