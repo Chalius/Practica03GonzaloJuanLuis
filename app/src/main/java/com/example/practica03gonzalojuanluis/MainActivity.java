@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
 
         //__________________________________________
         //                                          |
-        // Otorgando permisos a nivel de codigo
+        // Otorgando permisos a nivel de codigo para llamar
         //__________________________________________|
         final int READ_PHONE_STATE = 123;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
@@ -92,24 +92,15 @@ public class MainActivity extends AppCompatActivity implements FragmentoLlamadas
         //                                          |
         // CAPTURANDO DATOS ENVIADOS DESDE RECEPTORLLAMADA
         //__________________________________________|
-
-
+        
         Bundle parametros = this.getIntent().getExtras();
         if (parametros != null) {
             // obteniendo el número del telefono
             numero = getIntent().getExtras().getString("numero");
 
-
-
-
             // recuperando datos del shared preferences
             SharedPreferences llamadas = this.getSharedPreferences("DatosDeReceptor", Context.MODE_PRIVATE);
             elementosGuardados = llamadas.getAll();
-
-
-
-
-
 
         }
         //__________________________________________
