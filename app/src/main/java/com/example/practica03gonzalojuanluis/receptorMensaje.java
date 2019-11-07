@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.provider.Telephony;
+
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
@@ -15,28 +18,34 @@ public class receptorMensaje extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         //throw new UnsupportedOperationException("Not yet implemented");
-        Toast.makeText(context, "mensaje recibido", Toast.LENGTH_LONG).show();
 
+        //Toast.makeText(context, "mensaje entrante", Toast.LENGTH_LONG).show();
 
-        Bundle b = intent.getExtras();
+        if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                Object[] pdus = (Object[]) bundle.get("pdus");
+                String senderNumber = "";
+                String message = "";
+                for (int i = 0; i < pdus.length; i++) {
+                    //extrae el texto del sms 160 caracteres como maximo
+                    SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    //extrae el numero de remintente y lo almacena en senderNumber
+                    senderNumber = sms.getOriginatingAddress();
+                    //extrae el cuerpo del mensaje
+                    message = sms.getDisplayMessageBody();
+                    Toast.makeText(context, "De: " + senderNumber + " Mensaje: " + message, Toast.LENGTH_LONG).show();
+                }
 
-        if (b != null) {
-            Object[] pdus = (Object[]) b.get("pdus");
-
-            SmsMessage[] mensajes = new SmsMessage[pdus.length];
-
-            for (int i = 0; i < mensajes.length; i++) {
-                mensajes[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-
-                String idMensaje = mensajes[i].getOriginatingAddress();
-                String textoMensaje = mensajes[i].getMessageBody();
-
-
-                Toast.makeText(context, "remitente: " + idMensaje, Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Mensaje: " + textoMensaje, Toast.LENGTH_LONG).show();
+                //ENVIAR LOS DATOS AL INTENT
+                Intent mostrarActividad = new Intent(context, mensaje.class);
+                mostrarActividad.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mostrarActividad.putExtra("numero", senderNumber);
+                mostrarActividad.putExtra("mensaje", message);
+                context.startActivity(mostrarActividad);
             }
         }
-
     }
 }
 
