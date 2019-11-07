@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
@@ -14,25 +15,28 @@ public class receptorMensaje extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         //throw new UnsupportedOperationException("Not yet implemented");
-        Toast.makeText(context, "mensaje entrante", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "mensaje recibido", Toast.LENGTH_LONG).show();
 
 
-        // Se extrae información del evento recepcionado
-        /*
-        String estado = "";
-        String numero = "";
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            estado = extras.getString(TelephonyManager.EXTRA_STATE);
-            if (estado.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                numero = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                Intent mostrarActividad = new Intent(context,llamada.class);
-                mostrarActividad.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                mostrarActividad.putExtra("numero",numero);
-                context.startActivity(mostrarActividad);
+        Bundle b = intent.getExtras();
+
+        if (b != null) {
+            Object[] pdus = (Object[]) b.get("pdus");
+
+            SmsMessage[] mensajes = new SmsMessage[pdus.length];
+
+            for (int i = 0; i < mensajes.length; i++) {
+                mensajes[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+
+                String idMensaje = mensajes[i].getOriginatingAddress();
+                String textoMensaje = mensajes[i].getMessageBody();
+
+
+                Toast.makeText(context, "remitente: " + idMensaje, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Mensaje: " + textoMensaje, Toast.LENGTH_LONG).show();
             }
         }
-*/
+
     }
 }
+
